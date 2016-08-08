@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Your page title here :)</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Merriweather:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='skeleton.css') }}">
+  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='normalize.css') }}">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="{{ url_for('static',filename='images/favicon.png') }}">
+
+</head>
+<body>
+    <div class="container">
+    <div class="row">
+       <form action="submit" method="post">
+        <ul class="nav">
+            <li><input class="u-half-width" type="text" name="gene" placeholder="Transcript ID" id="gene" ></li>
+            <li>
+                <select class="u-half-width" id="species">
+                <option value="human" name="species">Human</option>
+                <option value="mouse" name="species">Mouse</option>
+                <option value="cow" name="species">Cow</option>
+                </select>
+            </li>
+            <li><input class="button-primary" type="submit" value="Search"></li>
+        </ul>
+        </form>
+    </div>
+                
+
+    <div class="row">
+        
+    <h3 id="summary-from-ncbi">Search transcript name above</h3>
+
+    
+    </div>
+
+    </div>
+    </div>
+</body>
+</html>
