@@ -162,11 +162,11 @@ def highlight(sequence,summary,exon_utr,snp,bisulfite):
         if sequence[term] == 'c':
             if sequence[term+1] =='g':
                 if bisulfite==False:
-                    sequence[term] = start_cg_tag + sequence[term]
-                    sequence[term+1] = sequence[term+1] + end_cg_tag
+                    sequence[term] = start_cg_tag + sequence[term] + end_cg_tag
+                    sequence[term+1] = start_cg_tag + sequence[term+1] + end_cg_tag
                 else:
-                    sequence[term] = start_cg_tag + 'y'
-                    sequence[term+1] = sequence[term+1] + end_cg_tag
+                    sequence[term] = start_cg_tag + 'y' +end_cg_tag
+                    sequence[term+1] = start_cg_tag + sequence[term+1] + end_cg_tag
 
     #Sequence Exon capitalize; method changes depending on strand direction
     if int(summary[0]['Strand']) == -1:
@@ -190,15 +190,15 @@ def highlight(sequence,summary,exon_utr,snp,bisulfite):
             if row["5' UTR Start"].isdigit() == True:
                 start_pos = total_offset - int(row["5' UTR End"])
                 end_pos = total_offset - int(row["5' UTR Start"])
-                sequence[start_pos] = start_utr_tag + sequence[start_pos]
-                sequence[end_pos] = sequence[end_pos]+end_utr_tag
+                for term in range(start_pos,end_pos):
+                    sequence[term] = start_utr_tag + sequence[term] + end_utr_tag
 
 
             if row["3' UTR Start"].isdigit() == True:
                 start_pos = total_offset - int(row["3' UTR End"])
                 end_pos = total_offset - int(row["3' UTR Start"])
-                sequence[start_pos] = start_utr_tag + sequence[start_pos]
-                sequence[end_pos] = sequence[end_pos]+end_utr_tag
+                for term in range(start_pos,end_pos):
+                    sequence[term] = start_utr_tag + sequence[term] + end_utr_tag
 
 
         for row in snp:
@@ -206,65 +206,43 @@ def highlight(sequence,summary,exon_utr,snp,bisulfite):
             end_pos = total_offset - int(row['Chromosome position start (bp)'])
             for term in range(start_pos,end_pos+end_term_offset):
                 start_snp_link_updated = start_snp_link %(row['Variant Name'])
-                sequence[start_pos] = start_snp_link_updated + sequence[start_pos]
-                sequence[end_pos] = sequence[end_pos] + end_snp_link
+                sequence[term] = start_snp_link_updated + sequence[term]+ end_snp_link
 
                 if row['Variant Consequence']=='downstream_gene_variant':
-                    sequence[start_pos] = start_snp_tag_downstream + sequence[start_pos]
-                    sequence[end_pos] = sequence[end_pos]+end_snp_tag
+                    sequence[term] = start_snp_tag_downstream + sequence[term] + end_snp_tag
 
                 elif row['Variant Consequence']=='upstream_gene_variant':
-                    sequence[start_pos] = start_snp_tag_downstream + sequence[start_pos]
-                    sequence[end_pos] = sequence[end_pos]+end_snp_tag
+                    sequence[term] = start_snp_tag_downstream + sequence[term] + end_snp_tag
 
                 elif row['Variant Consequence']=='3_prime_UTR_variant':
-                    sequence[start_pos] = start_snp_tag_utr + sequence[start_pos]
-                    sequence[end_pos] = sequence[end_pos]+end_snp_tag
-
+                    sequence[term] = start_snp_tag_utr + sequence[term] + end_snp_tag
 
                 elif row['Variant Consequence']=='5_prime_UTR_variant':
-                    sequence[start_pos] = start_snp_tag_utr + sequence[start_pos]
-                    sequence[end_pos] = sequence[end_pos]+end_snp_tag
-
+                    sequence[term] = start_snp_tag_utr + sequence[term] + end_snp_tag
 
                 elif row['Variant Consequence']=='synonymous_variant':
-                    sequence[start_pos] = start_snp_tag_synonymous + sequence[start_pos]
-                    sequence[end_pos] = sequence[end_pos]+end_snp_tag
-
+                    sequence[term] = start_snp_tag_synonymous + sequence[term] + end_snp_tag
 
                 elif row['Variant Consequence']=='missense_variant':
-                    sequence[start_pos] = start_snp_tag_missense + sequence[start_pos]
-                    sequence[end_pos] = sequence[end_pos]+end_snp_tag
-
+                    sequence[term] = start_snp_tag_missense + sequence[term] + end_snp_tag
 
                 elif row['Variant Consequence']=='splice_region_variant':
-                    sequence[start_pos] = start_snp_tag_splice_region + sequence[start_pos]
-                    sequence[end_pos] = sequence[end_pos]+end_snp_tag
-
+                    sequence[term] = start_snp_tag_splice_region + sequence[term] + end_snp_tag
 
                 elif row['Variant Consequence']=='intron_variant':
-                    sequence[start_pos] = start_snp_tag_intronic + sequence[start_pos]
-                    sequence[end_pos] = sequence[end_pos]+end_snp_tag
-
+                    sequence[term] = start_snp_tag_intronic + sequence[term] + end_snp_tag
 
                 elif row['Variant Consequence']=='stop_gained':
-                    sequence[start_pos] = start_snp_tag_stop_gained + sequence[start_pos]
-                    sequence[end_pos] = sequence[end_pos]+end_snp_tag
-
+                    sequence[term] = start_snp_tag_stop_gained + sequence[term] + end_snp_tag
 
                 elif row['Variant Consequence']=='frameshift_variant':
-                    sequence[start_pos] = start_snp_tag_frameshift + sequence[start_pos]
-                    sequence[end_pos] = sequence[end_pos]+end_snp_tag
-
+                    sequence[term] = start_snp_tag_frameshift + sequence[term] + end_snp_tag
 
                 elif row['Variant Consequence']=='splice_acceptor_variant':
-                    sequence[start_pos] = start_snp_tag_splice_acceptor + sequence[start_pos]
-                    sequence[end_pos] = sequence[end_pos]+end_snp_tag
-
+                    sequence[term] = start_snp_tag_splice_acceptor + sequence[term] + end_snp_tag
 
                 elif row['Variant Consequence']=='splice_donor_variant':
-                    sequence[start_pos] = start_snp_tag_splice_acceptor + sequence[start_pos]
-                    sequence[end_pos] = sequence[end_pos]+end_snp_tag
+                    sequence[term] = start_snp_tag_splice_acceptor + sequence[term] + end_snp_tag
 
 
 
@@ -286,89 +264,70 @@ def highlight(sequence,summary,exon_utr,snp,bisulfite):
 
             #Color UTR Brown
             if row["5' UTR Start"].isdigit() == True:
+
                 start_pos = int(row["5' UTR Start"]) - total_offset
                 end_pos = int(row["5' UTR End"]) - total_offset
-                sequence[start_pos] = start_utr_tag + sequence[start_pos]
-                sequence[end_pos] = sequence[end_pos] + end_utr_tag
+                for term in range(start_pos,end_pos):
+                    sequence[term] = start_utr_tag + sequence[term] + end_utr_tag
 
 
             if row["3' UTR Start"].isdigit() == True:
                 start_pos = int(row["3' UTR Start"]) - total_offset
                 end_pos = int(row["3' UTR End"]) - total_offset
-                sequence[start_pos] = start_utr_tag + sequence[start_pos]
-                sequence[end_pos] = sequence[end_pos]+end_utr_tag
+                for term in range(start_pos,end_pos):
+                    sequence[term] = start_utr_tag + sequence[term] + end_utr_tag
 
         for row in snp:
             start_pos = int(row['Chromosome position end (bp)']) - total_offset
             end_pos = int(row['Chromosome position start (bp)']) - total_offset
+
             for term in range(start_pos,end_pos+end_term_offset):
                 start_snp_link_updated = start_snp_link %(row['Variant Name'])
-                sequence[start_pos] = start_snp_link_updated + sequence[start_pos]
-                sequence[end_pos] = sequence[end_pos] + end_snp_link
+                sequence[term] = start_snp_link_updated + sequence[start_pos] + end_snp_link
 
 
                 if row['Variant Consequence']=='downstream_gene_variant':
-                    sequence[start_pos] = start_snp_tag_downstream + sequence[start_pos]
-                    sequence[end_pos] = sequence[end_pos] + end_snp_tag
-
-
+                    sequence[term] = start_snp_tag_downstream + sequence[term] + end_snp_tag
 
                 elif row['Variant Consequence']=='upstream_gene_variant':
-                    sequence[start_pos] = start_snp_tag_downstream + sequence[start_pos]
-                    sequence[end_pos] = sequence[end_pos] + end_snp_tag
-
-
-
+                    sequence[term] = start_snp_tag_downstream + sequence[term] + end_snp_tag
 
                 elif row['Variant Consequence']=='3_prime_UTR_variant':
-                    sequence[start_pos] = start_snp_tag_utr + sequence[start_pos]
-                    sequence[end_pos] = sequence[end_pos]+end_snp_tag
+                    sequence[term] = start_snp_tag_utr + sequence[term] + end_snp_tag
 
 
                 elif row['Variant Consequence']=='5_prime_UTR_variant':
-                    sequence[start_pos] = start_snp_tag_utr + sequence[start_pos]
-                    sequence[end_pos] = sequence[end_pos]+end_snp_tag
+                    sequence[term] = start_snp_tag_utr + sequence[term] + end_snp_tag
 
 
                 elif row['Variant Consequence']=='synonymous_variant':
-                    sequence[start_pos] = start_snp_tag_synonymous + sequence[start_pos]
-                    sequence[end_pos] = sequence[end_pos]+end_snp_tag
-
+                    sequence[term] = start_snp_tag_synonymous + sequence[term] + end_snp_tag
 
                 elif row['Variant Consequence']=='missense_variant':
-                    sequence[start_pos] = start_snp_tag_missense + sequence[start_pos]
-                    sequence[end_pos] = sequence[end_pos]+end_snp_tag
-
+                    sequence[term] = start_snp_tag_missense + sequence[term] + end_snp_tag
 
                 elif row['Variant Consequence']=='splice_region_variant':
-                    sequence[start_pos] = start_snp_tag_splice_region + sequence[start_pos]
-                    sequence[end_pos] = sequence[end_pos]+end_snp_tag
+                    sequence[term] = start_snp_tag_splice_region + sequence[term] + end_snp_tag
 
 
                 elif row['Variant Consequence']=='intron_variant':
-                    sequence[start_pos] = start_snp_tag_intronic + sequence[start_pos]
-                    sequence[end_pos] = sequence[end_pos]+end_snp_tag
+                    sequence[term] = start_snp_tag_intronic + sequence[term] + end_snp_tag
 
 
                 elif row['Variant Consequence']=='stop_gained':
-                    sequence[start_pos] = start_snp_tag_stop_gained + sequence[start_pos]
-                    sequence[end_pos] = sequence[end_pos]+end_snp_tag
+                    sequence[term] = start_snp_tag_stop_gained + sequence[term] + end_snp_tag
 
 
                 elif row['Variant Consequence']=='frameshift_variant':
-                    sequence[start_pos] = start_snp_tag_frameshift + sequence[start_pos]
-                    sequence[end_pos] = sequence[end_pos]+end_snp_tag
+                    sequence[term] = start_snp_tag_frameshift + sequence[term] + end_snp_tag
 
 
                 elif row['Variant Consequence']=='splice_acceptor_variant':
-                    sequence[start_pos] = start_snp_tag_splice_acceptor + sequence[start_pos]
-                    sequence[end_pos] = sequence[end_pos]+end_snp_tag
+                    sequence[term] = start_snp_tag_splice_acceptor + sequence[term] + end_snp_tag
 
 
                 elif row['Variant Consequence']=='splice_donor_variant':
-                    sequence[start_pos] = start_snp_tag_splice_acceptor + sequence[start_pos]
-                    sequence[end_pos] = sequence[end_pos]+end_snp_tag
-
+                    sequence[term] = start_snp_tag_splice_acceptor + sequence[term] + end_snp_tag
 
 
 
