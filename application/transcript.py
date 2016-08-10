@@ -331,8 +331,10 @@ def highlight(sequence,summary,exon_utr,snp,bisulfite):
 
 
 
-    soup =  BeautifulSoup(''.join(sequence),"html.parser")
+    soup =  BeautifulSoup(''.join(sequence),"lxml")
     full_sequence = soup.prettify()
+    regex = re.compile(r"\s*(<[^<>]+>)\s*")
+    full_sequence = regex.sub("\g<1>", full_sequence)
     return full_sequence
 
 
